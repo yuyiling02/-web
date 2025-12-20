@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>慧视课堂 | 沉浸式 3D 互动教具库</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --miku-blue: #86e3ce;
+            --sakura-pink: #ffddca;
+            --lemon-yellow: #fae1aa;
+        }
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%);
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+        .anime-btn {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--miku-blue);
+            color: white;
+        }
+        .anime-btn:hover {
+            transform: scale(1.05);
+            filter: brightness(1.05);
+        }
+        #viewport-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 80px);
+        }
+        /* 侧边栏样式 */
+        .sidebar-item {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .sidebar-item:hover {
+            background: rgba(134, 227, 206, 0.2);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="h-20 px-8 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <div class="w-10 h-10 bg-[#86e3ce] rounded-full flex items-center justify-center text-white shadow-lg">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <span class="text-2xl font-bold text-gray-700 tracking-tight">慧视课堂 <span class="text-sm font-normal text-gray-400">Future Lab</span></span>
+        </div>
+        
+        <div class="flex space-x-4">
+            <button class="px-6 py-2 rounded-full glass-panel text-gray-600 hover:bg-white flex items-center">
+                <i class="fas fa-upload mr-2"></i> 上传图片
+            </button>
+            <div class="w-12 h-12 rounded-full border-4 border-white shadow-md overflow-hidden">
+                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Felix" alt="avatar">
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex px-6 space-x-6">
+        <aside class="w-72 glass-panel p-6 flex flex-col space-y-6">
+            <div>
+                <h3 class="font-bold text-gray-600 mb-4 border-l-4 border-[#86e3ce] pl-3">学科资源库</h3>
+                <div class="space-y-3">
+                    <div class="sidebar-item p-3 flex items-center text-gray-600">
+                        <i class="fas fa-atom mr-3 text-blue-400"></i> 化学
+                    </div>
+                    <div class="sidebar-item p-3 flex items-center text-gray-600">
+                        <i class="fas fa-dna mr-3 text-green-400"></i> 生物
+                    </div>
+                    <div class="sidebar-item p-3 flex items-center text-gray-600">
+                        <i class="fas fa-square-root-variable mr-3 text-orange-400"></i> 数学
+                    </div>
+                    <div class="sidebar-item mt-2 p-2 flex items-center justify-center text-gray-400 text-xs border-t border-gray-100 hover:text-[#86e3ce]">
+                    <span>展开更多学科</span>
+                    <i class="fas fa-chevron-down ml-2"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-bold text-gray-600 mb-4 border-l-4 border-pink-300 pl-3">自定义功能</h3>
+                <div class="space-y-4">
+                    <label class="block">
+                        <span class="text-sm text-gray-500">左手手势绑定</span>
+                        <select class="mt-1 block w-full rounded-lg border-transparent bg-white/50 focus:ring-0">
+                            <option>旋转 + 缩放</option>
+                            <option>移动模型</option>
+                        </select>
+                    </label>
+                    <label class="block">
+                        <span class="text-sm text-gray-500">右手手势绑定</span>
+                        <select class="mt-1 block w-full rounded-lg border-transparent bg-white/50 focus:ring-0">
+                            <option>分步拆解组件</option>
+                            <option>高亮特定部位</option>
+                        </select>
+                    </label>
+                    <div class="cursor-pointer mt-4 py-2 px-3 rounded-xl bg-gray-100/50 hover:bg-gray-200/50 transition-colors flex items-center justify-between group">
+                    <span class="text-xs text-gray-500 font-medium">更多高级设置</span>
+                    <i class="fas fa-ellipsis-h text-gray-400 group-hover:text-gray-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto">
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                    <p class="text-xs text-blue-400 font-medium mb-1">AI 语音助手</p>
+                    <p class="text-sm text-gray-600">"请说出指令：锁定、拆解、展开"</p>
+                </div>
+            </div>
+        </aside>
+
+        <section class="flex-1 glass-panel relative overflow-hidden">
+            <div id="viewport-container">
+                <div class="absolute inset-0 flex items-center justify-center text-gray-300 pointer-events-none">
+                    <div class="text-center">
+                        <i class="fas fa-cube text-6xl mb-4 opacity-20"></i>
+                        <p>请从左侧选择模型或上传图片</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-6 right-6 w-48 h-36 rounded-2xl border-4 border-white shadow-2xl overflow-hidden bg-black">
+                <video id="video-source" class="w-full h-full object-cover transform scale-x-[-1]"></video>
+                <div class="absolute top-2 left-2 bg-green-500 w-3 h-3 rounded-full animate-pulse"></div>
+            </div>
+            
+            <div class="absolute top-6 right-6 space-y-2">
+                <div class="px-4 py-2 rounded-lg bg-white/80 text-sm text-[#86e3ce] font-bold shadow-sm">
+                    右手：识别中 <i class="fas fa-hand-paper ml-2"></i>
+                </div>
+                <div class="px-4 py-2 rounded-lg bg-white/80 text-sm text-pink-400 font-bold shadow-sm">
+                    语音：待命 <i class="fas fa-microphone ml-2"></i>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="fixed bottom-0 w-full h-8 px-8 flex items-center text-[10px] text-gray-400 uppercase tracking-widest">
+        
+    </footer>
+
+    </body>
+</html>
